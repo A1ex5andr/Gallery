@@ -1,0 +1,18 @@
+
+<div class="slider">
+  <div ng-controller="SliderCtrl" class="jumbotron">
+    <div class="container">
+      <div class="col-sm-12">
+        <div id="slideshow2" slideshow="slideshow" data-cycle-fx="carousel" data-cycle-carousel-visible="5" data-cycle-speed="10" data-cycle-prev="#prev" data-cycle-next="#next" data-cycle-carousel-fluid="true">
+          <div ng-repeat="image in images" ng-init="rating = star.rating + 1" class="slideBl">
+            <div star-rating="" rating-value="rating" max="5" on-rating-selected="rateFunction(rating)"></div><img ng-src="{{image}}" class="slide"/>
+          </div>
+        </div>
+      </div>
+      <div class="center">
+        <div id="prev" class="slider-nav btn btn-default pull-left">Prev</div>
+        <div id="next" class="slider-nav btn btn-default pull-right">Next</div>
+      </div>
+    </div>
+  </div>
+</div>

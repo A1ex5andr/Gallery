@@ -1,0 +1,18 @@
+@import "includes/reset";
+@import "includes/variables";
+@import "includes/vendor";
+@import "includes/module";
+
+
+// main web project style
+
+body {
+  padding-top: 80px;
+}
+
+.ng-invalid.ng-dirty {
+  border-color: #ff2e43;
+}
+.ng-valid.ng-dirty {
+  border-color: #2a8038;
+}

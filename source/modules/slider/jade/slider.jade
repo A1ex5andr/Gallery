@@ -1,0 +1,17 @@
+.slider
+    .jumbotron(ng-controller="SliderCtrl")
+        .container
+            .col-sm-12
+                #slideshow2(slideshow
+                data-cycle-fx="carousel"
+                data-cycle-carousel-visible="5"
+                data-cycle-speed="10"
+                data-cycle-prev="#prev"
+                data-cycle-next="#next"
+                data-cycle-carousel-fluid="true")
+                    div.slideBl(ng-repeat="image in images" ng-init="rating = star.rating + 1")
+                        div(star-rating="", rating-value="rating", max="5", on-rating-selected="rateFunction(rating)")
+                        img.slide(ng-src="{{image}}")
+            .center
+                #prev.slider-nav.btn.btn-default.pull-left Prev
+                #next.slider-nav.btn.btn-default.pull-right Next

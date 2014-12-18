@@ -1,0 +1,14 @@
+
+div(ui-view="header")
+.container
+    .col-md-6
+            h1 with "." and general scope
+            input(type="text", ng-model="data.message")
+            h3 {{ data.message }}
+            div(ng-controller="FirstCtrl")
+                input(type="text", ng-model="data.message")
+                h4 {{ data.message }}
+            div(ng-controller="SecondCtrl")
+                input(type="text", ng-model="data.message")
+            h4 {{ data.message }}
+div(ui-view="footer")

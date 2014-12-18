@@ -1,0 +1,35 @@
+//colors
+$linksColor: #111;
+$bodyTextColor: #333333;
+$bodyBGColor: #f0f0f0;
+$greenColor: #bfd731;
+$btnColor: #158DA4;
+
+//fonts
+@import url(http://fonts.googleapis.com/css?family=Montserrat:700);
+$fontMontserrat: 'Montserrat', sans-serif;
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,900,700&subset=latin,cyrillic);
+$fontRoboto: 'Roboto', sans-serif;
+@import url(http://fonts.googleapis.com/css?family=Play:400,700&subset=latin,cyrillic);
+$fontPlay: 'Play', sans-serif;
+//@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,700&subset=cyrillic-ext,latin);
+//$fontUbuntu: 'Ubuntu', sans-serif;
+
+//main class="container"
+@mixin container($data){
+  max-width: $data;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// media queries @media (min-width: $data)
+$mobile: 767px;
+$tablet: 768px;
+$small: 992px;
+$large: 1200px;
+
+// media queries max-width: $data;
+$tabletContainer: 752px;
+$smallContainer: 970px;
+$largeContainer: 1170px;
+
