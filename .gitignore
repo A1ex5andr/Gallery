@@ -1,0 +1,6 @@
+node_modules
+.idea
+plugins
+app/.sass-cache/*
+bower.json
+*.DS_Store

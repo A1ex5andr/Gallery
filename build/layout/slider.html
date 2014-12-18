@@ -1,17 +1,50 @@
 
-<div class="slider">
-  <div ng-controller="SliderCtrl" class="jumbotron">
+<div ng-controller="SliderCtrl" class="slider">
+  <div class="jumbotron">
     <div class="container">
       <div class="col-sm-12">
         <div id="slideshow2" slideshow="slideshow" data-cycle-fx="carousel" data-cycle-carousel-visible="5" data-cycle-speed="10" data-cycle-prev="#prev" data-cycle-next="#next" data-cycle-carousel-fluid="true">
-          <div ng-repeat="image in images" ng-init="rating = star.rating + 1" class="slideBl">
-            <div star-rating="" rating-value="rating" max="5" on-rating-selected="rateFunction(rating)"></div><img ng-src="{{image}}" class="slide"/>
+          <div ng-repeat="image in images" ng-init="rating = image.rate" class="slideBl">
+            <div star-rating="" rating-value="rating" max="5" on-rating-selected="rateFunction(rating)"></div><img ng-src="{{image.url}}" class="slide"/>
           </div>
         </div>
       </div>
       <div class="center">
         <div id="prev" class="slider-nav btn btn-default pull-left">Prev</div>
         <div id="next" class="slider-nav btn btn-default pull-right">Next</div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="col-sm-4">
+      <h4>Image List</h4>
+      <div class="div">Upload File
+        <div class="btn btn-default">ADD</div>
+      </div>
+      <ul class="list-group">
+        <li ng-repeat="image in images" class="list-group-item">{{ image.url }}</li>
+      </ul>
+    </div>
+    <div class="col-sm-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">Slide Detalis</div>
+        <div class="panel-body">
+          <p></p>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <td>Image ID</td>
+              <td>Image URL</td>
+              <td>Impressions Count</td>
+            </tr>
+          </thead>
+          <tr ng-repeat="image in images">
+            <td>{{ image.id }}</td>
+            <td>{{ image.url }}</td>
+            <td>{{ image.rate }}</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>

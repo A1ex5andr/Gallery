@@ -1,9 +1,15 @@
 angular.module('Slides', [])
-    .controller('SliderCtrl', function ($scope, resService) {
+    .controller('SliderCtrl', function ($scope) {
 
-        var slides = this;
-        slides.data = [];
-        slides.data  = resService.query();
+        $scope.images = [
+            {"url": "img/slides/001.jpg", "rate": "3", "id": "01"},
+            {"url": "img/slides/002.jpg", "rate": "3", "id": "02"},
+            {"url": "img/slides/003.jpg", "rate": "3", "id": "03"},
+            {"url": "img/slides/004.jpg", "rate": "3", "id": "04"},
+            {"url": "img/slides/005.jpg", "rate": "3", "id": "05"},
+            {"url": "img/slides/006.jpg", "rate": "3", "id": "06"},
+            {"url": "img/slides/007.jpg", "rate": "3", "id": "07"}
+        ];
 
         //$scope.save = function() {
         //    /*$http.post('path/to/server/file/to/save/json', $scope.languages).then(function(data) {
@@ -12,22 +18,13 @@ angular.module('Slides', [])
         //    $scope.msg = 'Data sent: '+ JSON.stringify($scope.languages);
         //};
 
-        $scope.rating = 5;
+        //$scope.rating = 5;
         $scope.rateFunction = function(rating) {
             console.log("Rating selected - " + rating);
         };
 
-        //$scope.images = slides;
-        //console.log(slides);
-        $scope.images = [
-                "img/slides/001.jpg",
-                "img/slides/002.jpg",
-                "img/slides/003.jpg",
-                "img/slides/004.jpg",
-                "img/slides/005.jpg",
-                "img/slides/006.jpg",
-                "img/slides/007.jpg"
-        ];
+
+
     })
     .directive('slideshow', function () {
         return {

@@ -1,5 +1,5 @@
-.slider
-    .jumbotron(ng-controller="SliderCtrl")
+.slider(ng-controller="SliderCtrl")
+    .jumbotron
         .container
             .col-sm-12
                 #slideshow2(slideshow
@@ -9,9 +9,36 @@
                 data-cycle-prev="#prev"
                 data-cycle-next="#next"
                 data-cycle-carousel-fluid="true")
-                    div.slideBl(ng-repeat="image in images" ng-init="rating = star.rating + 1")
-                        div(star-rating="", rating-value="rating", max="5", on-rating-selected="rateFunction(rating)")
-                        img.slide(ng-src="{{image}}")
+                    div.slideBl(ng-repeat="image in images" ng-init="rating = image.rate")
+                        div(star-rating="" rating-value="rating" max="5" on-rating-selected="rateFunction(rating)")
+                        img.slide(ng-src="{{image.url}}")
             .center
                 #prev.slider-nav.btn.btn-default.pull-left Prev
                 #next.slider-nav.btn.btn-default.pull-right Next
+
+    .container
+        .col-sm-4
+            h4 Image List
+            .div
+                | Upload File
+                .btn.btn-default ADD
+
+            ul.list-group
+                li.list-group-item(ng-repeat="image in images") {{ image.url }}
+
+        .col-sm-8
+            .panel.panel-default
+                .panel-heading Slide Detalis
+                .panel-body
+                    p
+                table.table
+                    thead
+                        tr
+                            td Image ID
+                            td Image URL
+                            td Impressions Count
+                    tr(ng-repeat="image in images")
+                        td {{ image.id }}
+                        td {{ image.url }}
+                        td {{ image.rate }}
+
