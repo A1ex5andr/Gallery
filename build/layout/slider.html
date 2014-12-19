@@ -1,0 +1,73 @@
+
+<div ng-controller="SliderCtrl" class="slider">
+  <div class="jumbotron">
+    <div class="container">
+      <div class="col-xs-12 col-sm-offset-3 col-sm-6">
+        <!--#slideshow2(slideshow, data-cycle-fx="carousel", data-cycle-carousel-visible="3", data-cycle-speed="10", data-cycle-prev="#prev", data-cycle-next="#next", data-cycle-carousel-fluid="true")-->
+        <div id="slideshow2" slideshow="slideshow" data-cycle-speed="1500" data-cycle-prev="#prev" data-cycle-next="#next" data-index='1'>
+          <div ng-repeat="image in images" ng-init="rating = image.rate" id="{{image.id}}" class="slideBl">
+            <div star-rating="star-rating" rating-value="rating" max="5" on-rating-selected="rateFunction(rating)"></div><img ng-src="{{image.url}}" class="slide img-responsive"/>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div id="prev" class="slider-nav btn btn-default pull-left">Prev</div>
+        <div id="next" class="slider-nav btn btn-default pull-right">Next</div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="col-sm-4">
+      <form class="slider-add">Upload File
+        <div class="btn btn-default pull-right">ADD</div>
+      </form>
+      <div>
+        <ul class="list-group">
+          <li ng-repeat="image in images" class="list-group-item">{{ image.url }}</li>
+        </ul>
+      </div>
+    </div>
+    <!-- pre Sorting predicate = {{predicate}}; reverse = {{reverse}}-->
+    <div class="col-sm-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">Slide Detalis</div>
+        <div class="panel-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <td>Image ID<a href="" ng-click="predicate = 'id'; revers=false"><span aria-hidden="true" class="glyphicon glyphicon-chevron-up"></span></a><a href="" ng-click="predicate = '-id'; revers=false"><span aria-hidden="true" class="glyphicon glyphicon-chevron-down"></span></a></td>
+                <td>Image URL<a href="" ng-click="predicate = 'url'; revers=false"><span aria-hidden="true" class="glyphicon glyphicon-chevron-up"></span></a><a href="" ng-click="predicate = '-url'; revers=false"><span aria-hidden="true" class="glyphicon glyphicon-chevron-down"></span></a></td>
+                <td>Impressions Count<a href="" ng-click="predicate = 'count'; revers=false"><span aria-hidden="true" class="glyphicon glyphicon-chevron-up"></span></a><a href="" ng-click="predicate = '-count'; revers=false"><span aria-hidden="true" class="glyphicon glyphicon-chevron-down"></span></a></td>
+              </tr>
+            </thead>
+            <tr ng-repeat="image in images | orderBy:predicate:reverse">
+              <td>{{ image.id }}</td>
+              <td>{{ image.url }}</td>
+              <td>{{ image.count }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal-->
+  <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" data-dismiss="modal" class="close"><span aria-hidden="true">&#215;</span><span class="sr-only">Close</span></button>
+          <h4 id="myModalLabel" class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          <div id="slideshow2" slideshow="slideshow" data-cycle-speed="1500">
+            <div ng-repeat="image in images" class="slideBl"><img ng-src="{{image.url}}" class="slide img-responsive"/></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+      <button type="button" class="btn btn-primary">Save changes</button>
+    </div>
+  </div>
+</div>
