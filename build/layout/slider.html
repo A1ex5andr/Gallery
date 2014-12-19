@@ -20,39 +20,9 @@
     <div class="col-sm-4">
       <div class="upload_section">
         <form action="/share" method="POST" class="share_form">
-          <div class="drag_area">
-            <div class="drag_inner"><span>Drop Photo Here<span class="small">or</span></span>
-              <div class="upload_button_holder">
-                <input type="submit" value="Select Photo" class="select_files"/>
-                <input type="file" data-cloudinary-field="photo_id" data-form-data="{'timestamp':1418997510,'transformation':'c_limit,h_1200,w_1200','callback':'http://edgedemo.cloudinary.com/cloudinary_cors.html','image_metadata':1,'eager':'c_fill,g_face,h_133,r_20,w_200/fl_relative,g_center,l_logo_watermark,o_40,w_0.9|c_fill,e_sepia,g_face,h_133,r_20,w_200/fl_relative,g_center,l_logo_watermark,o_40,w_0.9|c_fill,e_improve,g_face,h_133,r_20,w_200/fl_relative,g_center,l_logo_watermark,o_40,w_0.9|c_fill,e_hue:70,g_face,h_133,r_20,w_200/e_blue:40/fl_relative,g_center,l_logo_watermark,o_40,w_0.9|c_limit,h_600,w_600','signature':'91400bdf2ae871597f0713985346968dc9fec9f0','api_key':'584952392728183'}" data-url="https://api.cloudinary.com/v1_1/hzxyensd5/image/upload" name="file" class="cloudinary-fileupload"/>
-              </div>
-            </div>
-          </div>
-          <div class="upload_progress"><span>Uploading...</span>
-            <div class="progress_bar">
-              <div class="completed"></div>
-            </div>
-          </div>
-          <div class="processing_progress"><span>Processing...</span>
-            <!-- img alt='Processing...' height='32' src='/ajax-loader.gif' width='32'-->
-            
-          </div>
+          <input name="file" type="file"/><a href="" class="btn btn-default upload_button">Upload</a>
         </form>
       </div>
-      <!--form.upload_form(method='POST')
-      //    .form_line
-      //        label Upload File:
-      //        .form_controls
-      //            .upload_button_holder
-                      //input(name="file" type="file")
-                      //<input name="file" type="file" class="cloudinary-fileupload" data-cloudinary-field="image_id" data-form-data="{
-                      //    &quot;timestamp&quot;:  1345719094,
-                      //    &quot;callback&quot;: &quot;https://www.example.com/cloudinary_cors.html&quot;,
-                      //    &quot;signature&quot;: &quot;7ac8c757e940d95f95495aa0f1cba89ef1a8aa7a&quot;,
-                      //    &quot;api_key&quot;: &quot;1234567890&quot;
-                      //  }"></input>
-                  //a.btn.btn-default.upload_button(href="") Upload
-      -->
       <div>
         <ul class="list-group">
           <li ng-repeat="image in images" class="list-group-item">{{ image.url }}</li>
