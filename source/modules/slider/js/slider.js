@@ -1,19 +1,24 @@
 angular.module('Slides', [])
-    .controller('SliderCtrl', function ($scope) {
+    .controller('SliderCtrl', ['$scope', '$localstorage', function ($scope, $localstorage) {
         $scope.images = [
-            {"url": "img/slides/001.jpg", "rate": 3, "id": "01", "count": 111},
-            {"url": "img/slides/002.jpg", "rate": 3, "id": "02", "count": 211},
-            {"url": "img/slides/003.jpg", "rate": 3, "id": "03", "count": 1311},
-            {"url": "img/slides/004.jpg", "rate": 3, "id": "04", "count": 1531},
-            {"url": "img/slides/005.jpg", "rate": 3, "id": "05", "count": 3241},
-            {"url": "img/slides/006.jpg", "rate": 3, "id": "06", "count": 11},
-            {"url": "img/slides/007.jpg", "rate": 3, "id": "07", "count": 5331}
+            {"url": "img/slides/001.jpg", "rate": 5, "id": "01", "count": 111},
+            {"url": "img/slides/002.jpg", "rate": 4, "id": "02", "count": 211},
+            {"url": "img/slides/003.jpg", "rate": 5, "id": "03", "count": 1311},
+            {"url": "img/slides/004.jpg", "rate": 1, "id": "04", "count": 1531},
+            {"url": "img/slides/005.jpg", "rate": 2, "id": "05", "count": 3241},
+            {"url": "img/slides/006.jpg", "rate": 4, "id": "06", "count": 11},
+            {"url": "img/slides/007.jpg", "rate": 5, "id": "07", "count": 5331}
         ];
+        $localstorage.setObject('images', {
+            images: $scope.images
+        });
+
         $scope.predicate = "id";
         $scope.rateFunction = function(rating) {
             console.log("Rating selected - " + rating);
         };
-    })
+
+    }])
     .directive('slideshow', function () {
         return {
             restrict: 'AC',
@@ -25,10 +30,17 @@ angular.module('Slides', [])
                     element.cycle(config);
                 }, 0);
 
+                $('.slider').bind(function () {
+                   if($( ".slideBl:visible")){
+                       console.log(123);
+                   }
+                });
                 //
-                if($(".slideBl:visible")){
-                    console.log($(".slideBl:visible").attr('id'));
-                };
+                $(document).ready(function (){
+                    if($( ".slideBl:visible")){
+                        console.log(123);
+                    };
+                });
             }
         };
     })

@@ -11,6 +11,9 @@ app.factory('$localstorage', ['$window', function($window) {
             },
             getObject: function(key) {
                 return JSON.parse($window.localStorage[key] || '{}');
+            },
+            getJson: function(key){
+                return $window.localStorage[key];
             }
         }
     }]);

@@ -4,3 +4,5 @@ plugins
 app/.sass-cache/*
 bower.json
 *.DS_Store
+
+build
