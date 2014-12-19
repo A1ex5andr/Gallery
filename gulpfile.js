@@ -62,7 +62,11 @@ gulp.task('vendorJs', function () {
         config.vendor + '/js/angular-ui-router.min.js',
         config.vendor + '/js/angular-resource.js',
         config.vendor + '/js/jquery.cycle2.js',
-        config.vendor + '/js/bootstrap.js'
+        config.vendor + '/js/bootstrap.js',
+        config.vendor + '/js/cloudinary/jquery.ui.widget.js',
+        config.vendor + '/js/cloudinary/jquery.iframe-transport.js',
+        config.vendor + '/js/cloudinary/jquery.fileupload.js',
+        config.vendor + '/js/cloudinary/jquery.cloudinary.js'
         ])
         .pipe(plugins.concat('vendor.js'))
         //.pipe(uglify())

@@ -1,30 +1,18 @@
 angular.module('Slides', [])
     .controller('SliderCtrl', function ($scope) {
-
         $scope.images = [
-            {"url": "img/slides/001.jpg", "rate": "3", "id": "01"},
-            {"url": "img/slides/002.jpg", "rate": "3", "id": "02"},
-            {"url": "img/slides/003.jpg", "rate": "3", "id": "03"},
-            {"url": "img/slides/004.jpg", "rate": "3", "id": "04"},
-            {"url": "img/slides/005.jpg", "rate": "3", "id": "05"},
-            {"url": "img/slides/006.jpg", "rate": "3", "id": "06"},
-            {"url": "img/slides/007.jpg", "rate": "3", "id": "07"}
+            {"url": "img/slides/001.jpg", "rate": 3, "id": "01", "count": 111},
+            {"url": "img/slides/002.jpg", "rate": 3, "id": "02", "count": 211},
+            {"url": "img/slides/003.jpg", "rate": 3, "id": "03", "count": 1311},
+            {"url": "img/slides/004.jpg", "rate": 3, "id": "04", "count": 1531},
+            {"url": "img/slides/005.jpg", "rate": 3, "id": "05", "count": 3241},
+            {"url": "img/slides/006.jpg", "rate": 3, "id": "06", "count": 11},
+            {"url": "img/slides/007.jpg", "rate": 3, "id": "07", "count": 5331}
         ];
-
-        //$scope.save = function() {
-        //    /*$http.post('path/to/server/file/to/save/json', $scope.languages).then(function(data) {
-        //     $scope.msg = 'Data saved';
-        //     });*/
-        //    $scope.msg = 'Data sent: '+ JSON.stringify($scope.languages);
-        //};
-
-        //$scope.rating = 5;
+        $scope.predicate = "id";
         $scope.rateFunction = function(rating) {
             console.log("Rating selected - " + rating);
         };
-
-
-
     })
     .directive('slideshow', function () {
         return {
@@ -36,6 +24,11 @@ angular.module('Slides', [])
                 setTimeout(function () {
                     element.cycle(config);
                 }, 0);
+
+                //
+                if($(".slideBl:visible")){
+                    console.log($(".slideBl:visible").attr('id'));
+                };
             }
         };
     })

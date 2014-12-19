@@ -1,44 +1,71 @@
 .slider(ng-controller="SliderCtrl")
     .jumbotron
         .container
-            .col-sm-12
-                #slideshow2(slideshow
-                data-cycle-fx="carousel"
-                data-cycle-carousel-visible="5"
-                data-cycle-speed="10"
-                data-cycle-prev="#prev"
-                data-cycle-next="#next"
-                data-cycle-carousel-fluid="true")
-                    div.slideBl(ng-repeat="image in images" ng-init="rating = image.rate")
-                        div(star-rating="" rating-value="rating" max="5" on-rating-selected="rateFunction(rating)")
-                        img.slide(ng-src="{{image.url}}")
-            .center
+            .col-xs-12.col-sm-offset-3.col-sm-6
+                //#slideshow2(slideshow, data-cycle-fx="carousel", data-cycle-carousel-visible="3", data-cycle-speed="10", data-cycle-prev="#prev", data-cycle-next="#next", data-cycle-carousel-fluid="true")
+                #slideshow2(slideshow, data-cycle-speed="1500", data-cycle-prev="#prev", data-cycle-next="#next", data-index=1)
+                    div.slideBl(ng-repeat="image in images" ng-init="rating = image.rate" id="{{image.id}}")
+                        div(star-rating, rating-value="rating" max="5" on-rating-selected="rateFunction(rating)")
+                        img.slide.img-responsive(ng-src="{{image.url}}")
+            .col-xs-12
                 #prev.slider-nav.btn.btn-default.pull-left Prev
                 #next.slider-nav.btn.btn-default.pull-right Next
 
     .container
         .col-sm-4
-            h4 Image List
-            .div
+            form.slider-add
                 | Upload File
-                .btn.btn-default ADD
+                .btn.btn-default.pull-right ADD
+            div
+                ul.list-group
+                    li.list-group-item(ng-repeat="image in images") {{ image.url }}
 
-            ul.list-group
-                li.list-group-item(ng-repeat="image in images") {{ image.url }}
-
+        // pre Sorting predicate = {{predicate}}; reverse = {{reverse}}
         .col-sm-8
             .panel.panel-default
                 .panel-heading Slide Detalis
                 .panel-body
-                    p
-                table.table
-                    thead
-                        tr
-                            td Image ID
-                            td Image URL
-                            td Impressions Count
-                    tr(ng-repeat="image in images")
-                        td {{ image.id }}
-                        td {{ image.url }}
-                        td {{ image.rate }}
+                    table.table
+                        thead
+                            tr
+                                td Image ID
+                                    a(href="" ng-click="predicate = 'id'; revers=false")
+                                        span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
+                                    a(href="" ng-click="predicate = '-id'; revers=false")
+                                        span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
+
+                                td Image URL
+                                    a(href="" ng-click="predicate = 'url'; revers=false")
+                                        span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
+                                    a(href="" ng-click="predicate = '-url'; revers=false")
+                                        span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
+                                td Impressions Count
+                                    a(href="" ng-click="predicate = 'count'; revers=false")
+                                        span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
+                                    a(href="" ng-click="predicate = '-count'; revers=false")
+                                        span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
+                        tr(ng-repeat="image in images | orderBy:predicate:reverse")
+                            td {{ image.id }}
+                            td {{ image.url }}
+                            td {{ image.count }}
+
+    // Modal
+    #myModal.modal.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button.close(type="button", data-dismiss="modal")
+                        span(aria-hidden="true") &#215;
+                        span.sr-only Close
+                    h4#myModalLabel.modal-title Modal title
+                .modal-body
+                    #slideshow2(slideshow, data-cycle-speed="1500")
+                        div.slideBl(ng-repeat="image in images")
+                            img.slide.img-responsive(ng-src="{{image.url}}")
+
+        .modal-footer
+                    button.btn.btn-default(type="button", data-dismiss="modal") Close
+                    button.btn.btn-primary(type="button") Save changes
+
+
 
