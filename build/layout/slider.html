@@ -4,8 +4,8 @@
     <div class="container">
       <div class="col-xs-12 col-sm-offset-3 col-sm-6">
         <!--#slideshow2(slideshow, data-cycle-fx="carousel", data-cycle-carousel-visible="3", data-cycle-speed="10", data-cycle-prev="#prev", data-cycle-next="#next", data-cycle-carousel-fluid="true")-->
-        <div id="slideshow2" slideshow="slideshow" data-cycle-speed="500" data-cycle-prev="#prev" data-cycle-next="#next" data-index='1'>
-          <div ng-repeat="image in images" ng-init="rating = image.rate" id="{{image.id}}" class="slideBl"><span star-rating="star-rating" rating-value="rating" max="5" on-rating-selected="rateFunction(rating)"></span><img ng-src="{{image.url}}" class="slide img-responsive"/>
+        <div id="slideshow2" slideshow="slideshow" data-cycle-speed="500" data-cycle-prev="#prev" data-cycle-next="#next">
+          <div ng-repeat="image in images" ng-init="rating = image.rate" class="slideBl slide{{image.id}}"><span star-rating="star-rating" rating-value="rating" max="5" on-rating-selected="rateFunction(rating)"></span><img ng-src="{{image.url}}" class="slide img-responsive"/>
             <div>{{image.count}}</div>
           </div>
         </div>
@@ -53,16 +53,16 @@
     </div>
   </div>
   <!-- Modal-->
-  <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal fade">
+  <div id="SlidePop" tabindex="-1" role="dialog" aria-labelledby="SlidePopLabel" aria-hidden="true" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" data-dismiss="modal" class="close"><span aria-hidden="true">&#215;</span><span class="sr-only">Close</span></button>
-          <h4 id="myModalLabel" class="modal-title">Modal title</h4>
+          <button id="closepop" closepopup="closepopup" type="button" data-dismiss="modal" class="close"><span aria-hidden="true">&#215;</span><span class="sr-only">Close</span></button>
+          <h4 id="SlidePopLabel" class="modal-title">Modal title</h4>
         </div>
         <div class="modal-body">
-          <div id="slideshow2" slideshow="slideshow" data-cycle-speed="1500">
-            <div ng-repeat="image in images" class="slideBl"><img ng-src="{{image.url}}" class="slide img-responsive"/></div>
+          <div id="slideshow2pop" slideshowpop="slideshowpop" data-cycle-speed="1500" random="random">
+            <div ng-repeat="image in images" class="slideBl slide{{image.id}}"><img ng-src="{{image.url}}" class="slide img-responsive"/></div>
           </div>
         </div>
       </div>
