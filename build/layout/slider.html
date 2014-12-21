@@ -5,7 +5,7 @@
       <div class="col-xs-12 col-sm-offset-3 col-sm-6">
         <!--#slideshow2(slideshow, data-cycle-fx="carousel", data-cycle-carousel-visible="3", data-cycle-speed="10", data-cycle-prev="#prev", data-cycle-next="#next", data-cycle-carousel-fluid="true")-->
         <div id="slideshow2" slideshow="slideshow" data-cycle-speed="500" data-cycle-prev="#prev" data-cycle-next="#next">
-          <div ng-repeat="image in images" ng-init="rating = image.rate" class="slideBl slide{{image.id}}"><span star-rating="star-rating" rating-value="rating" max="5" on-rating-selected="rateFunction(rating)"></span><img ng-src="{{image.url}}" class="slide img-responsive"/>
+          <div ng-repeat="image in images" ng-init="rating = image.rate" id="slide_{{image.id}}" class="slideBl"><span star-rating="star-rating" rating-value="rating" max="5" on-rating-selected="rateFunction(rating)"></span><img ng-src="{{image.url}}" class="slide img-responsive"/>
             <div>{{image.count}}</div>
           </div>
         </div>
@@ -62,7 +62,7 @@
         </div>
         <div class="modal-body">
           <div id="slideshow2pop" slideshowpop="slideshowpop" data-cycle-speed="1500" random="random">
-            <div ng-repeat="image in images" class="slideBl slide{{image.id}}"><img ng-src="{{image.url}}" class="slide img-responsive"/></div>
+            <div ng-repeat="image in images" id="slidePop_{{image.id}}" class="slideBl"><img ng-src="{{image.url}}" class="slide img-responsive"/></div>
           </div>
         </div>
       </div>

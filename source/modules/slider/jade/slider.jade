@@ -4,7 +4,7 @@
             .col-xs-12.col-sm-offset-3.col-sm-6
                 //#slideshow2(slideshow, data-cycle-fx="carousel", data-cycle-carousel-visible="3", data-cycle-speed="10", data-cycle-prev="#prev", data-cycle-next="#next", data-cycle-carousel-fluid="true")
                 #slideshow2(slideshow, data-cycle-speed="500", data-cycle-prev="#prev", data-cycle-next="#next")
-                    div.slideBl(ng-repeat="image in images" ng-init="rating = image.rate" class="slide{{image.id}}")
+                    div.slideBl(ng-repeat="image in images" ng-init="rating = image.rate" id="slide_{{image.id}}")
                         span(star-rating, rating-value="rating" max="5" on-rating-selected="rateFunction(rating)")
                         img.slide.img-responsive(ng-src="{{image.url}}")
                         div() {{image.count}}
@@ -62,5 +62,5 @@
                     h4#SlidePopLabel.modal-title Modal title
                 .modal-body
                     #slideshow2pop(slideshowpop, data-cycle-speed="1500", random=true)
-                        div.slideBl(ng-repeat="image in images" class="slide{{image.id}}")
+                        div.slideBl(ng-repeat="image in images" id="slidePop_{{image.id}}")
                             img.slide.img-responsive(ng-src="{{image.url}}")

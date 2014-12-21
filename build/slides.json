@@ -1,31 +1,9 @@
 [
-  {
-    "id": "01",
-    "image": "img/slides/001.jpg",
-    "rating": "1"
-  },{
-    "id": "01",
-    "image": "img/slides/001.jpg",
-    "rating": "1"
-  },{
-    "id": "01",
-    "image": "img/slides/001.jpg",
-    "rating": "1"
-  },{
-    "id": "01",
-    "image": "img/slides/001.jpg",
-    "rating": "1"
-  },{
-    "id": "01",
-    "image": "img/slides/001.jpg",
-    "rating": "1"
-  },{
-    "id": "01",
-    "image": "img/slides/001.jpg",
-    "rating": "1"
-  },{
-    "id": "01",
-    "image": "img/slides/001.jpg",
-    "rating": "1"
-  }
+  {"url": "img/slides/001.jpg", "rate": 5, "id": "01", "count": 111},
+  {"url": "img/slides/002.jpg", "rate": 4, "id": "02", "count": 211},
+  {"url": "img/slides/003.jpg", "rate": 5, "id": "03", "count": 1311},
+  {"url": "img/slides/004.jpg", "rate": 1, "id": "04", "count": 1531},
+  {"url": "img/slides/005.jpg", "rate": 2, "id": "05", "count": 3241},
+  {"url": "img/slides/006.jpg", "rate": 4, "id": "06", "count": 11},
+  {"url": "img/slides/007.jpg", "rate": 5, "id": "07", "count": 5331}
 ]
