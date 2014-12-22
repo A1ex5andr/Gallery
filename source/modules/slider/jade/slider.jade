@@ -7,49 +7,58 @@
                     div.slideBl(ng-repeat="image in images" ng-init="rating = image.rate" id="slide_{{image.id}}")
                         span(star-rating, rating-value="rating" max="5" on-rating-selected="rateFunction(rating)")
                         img.slide.img-responsive(ng-src="{{image.url}}")
-                        div() {{ image.count }}
+                        //div() {{ image.count }}
             .col-xs-12
                 #prev.slider-nav.btn.btn-default.pull-left Prev
                 #next.slider-nav.btn.btn-default.pull-right Next
+    .row
+        .container
+            .col-sm-4
+                h4 Images list
+                .upload_section
+                    form(role="form")
+                        .form-group
+                            label(for="exampleInputFile") File input
+                            input#exampleInputFile(type="file")
+                        button.btn.btn-default(type="submit") Submit
 
-    .container
-        .col-sm-4
-            .upload_section
-                form.share_form(action="/share", method="POST")
-                    input(name="file" type="file")
-                    a.btn.btn-default.upload_button(href="") Upload
-            div
-                ul.list-group
-                    li.list-group-item(ng-repeat="image in images") {{ image.url }}
+                div
+                    ul.list-group
+                        li.list-group-item(ng-repeat="image in images") {{ image.url }}
 
-        // pre Sorting predicate = {{predicate}}; reverse = {{reverse}}
-        .col-sm-8
-            .panel.panel-default
-                .panel-heading Slide Detalis
-                .panel-body
-                    table.table
-                        thead
-                            tr
-                                td Image ID
-                                    a(href="" ng-click="predicate = 'id'; revers=false")
-                                        span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
-                                    a(href="" ng-click="predicate = '-id'; revers=false")
-                                        span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
+            // pre Sorting predicate = {{predicate}}; reverse = {{reverse}}
+            .col-sm-8
+                .panel.panel-default
+                    .panel-heading Slide Detalis
+                    .panel-body
+                        table.table
+                            thead
+                                tr
+                                    td Image ID
+                                        div.hidden-xs
+                                            a(href="" ng-click="predicate = 'id'; revers=false")
+                                                span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
+                                            a(href="" ng-click="predicate = '-id'; revers=false")
+                                                span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
 
-                                td Image URL
-                                    a(href="" ng-click="predicate = 'url'; revers=false")
-                                        span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
-                                    a(href="" ng-click="predicate = '-url'; revers=false")
-                                        span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
-                                td Impressions Count
-                                    a(href="" ng-click="predicate = 'count'; revers=false")
-                                        span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
-                                    a(href="" ng-click="predicate = '-count'; revers=false")
-                                        span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
-                        tr(ng-repeat="image in images | orderBy:predicate:reverse")
-                            td {{ image.id }}
-                            td {{ image.url }}
-                            td {{ image.count }}
+                                    td Image URL
+                                        div.hidden-xs
+                                            a(href="" ng-click="predicate = 'url'; revers=false")
+                                                span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
+                                            a(href="" ng-click="predicate = '-url'; revers=false")
+                                                span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
+
+                                    td Impressions Count
+                                        div.hidden-xs
+                                            a(href="" ng-click="predicate = 'count'; revers=false")
+                                                span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
+                                            a(href="" ng-click="predicate = '-count'; revers=false")
+                                                span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
+
+                            tr(ng-repeat="image in images | orderBy:predicate:reverse")
+                                td {{ image.id }}
+                                td {{ image.url }}
+                                td {{ image.count }}
 
     // Modal
     #SlidePop.modal.fade(tabindex="-1", role="dialog", aria-labelledby="SlidePopLabel", aria-hidden="true")
