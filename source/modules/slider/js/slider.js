@@ -1,12 +1,33 @@
 angular.module('Slides', [])
-    .controller('SliderCtrl', ['$scope', '$localstorage', 'resService', function ($scope, $localstorage, resService) {
-        $scope.images = [ ];
-        $scope.images = resService.query();
+    .controller('SliderCtrl', ['$scope', '$localstorage', 'resService', '$window',
+        function ($scope, $localstorage, resService, $window) {
 
+        $scope.images = [];
 
-        //$localstorage.setObject('images', {
-        //    images: $scope.images
-        //});
+        var data = resService.query( function(data) {
+            //console.log('success, got data: ', data);
+            if ( typeof (localStorage['data']) === "undefined" ){
+                    $localstorage.setObject('data', data );
+            }
+                $scope.images = $localstorage.getObject('data');
+        }, function(err){
+            alert('request failed');
+        });
+
+            // update data on LS changes
+            //$scope.$watch('scopeUpdate', function() {
+            //    $localstorage.getObject('data')
+            //}, function(newValue, oldValue) {
+            //    if ( newValue !== oldValue ) {
+            //        // Only increment the counter if the value changed
+            //        //scope.foodCounter = scope.foodCounter + 1;
+            //        console.log(123);
+            //    }
+            //});
+
+            ////test
+            //$scope.counter = 0;
+            //console.log($scope.counter);
 
         $scope.predicate = "id"; // default filtering
         $scope.rateFunction = function(rating) {
@@ -116,25 +137,59 @@ angular.module('Slides', [])
             link: function ($scope, element, attrs) {
                 setTimeout(function () {
 
-                    $('#slideshow2').on('cycle-after', function () {
-                        var target = $('#slideshow2 .cycle-slide-active').attr('id');
-                        var imageId = target.split('_');
-                            console.log(imageId[1]);
-                        //console.log(scope.images.count);
-                        var storedItem = $localstorage.get(1, 0);
-                        //console.log(storedItem);
-                    });
+                        $('#slideshow2').on('cycle-before', function () {
+                            var target = $('#slideshow2 .cycle-slide-active').attr('id');
 
-                    $('#slideshow2pop').on('cycle-after', function () {
+                            var imageId = target.split('_');
+                            imageId = imageId[1];
+
+                            var storedData = $localstorage.getObject('data');
+                            presentCount = storedData[imageId].count;
+
+                            var newCount = storedData[imageId].count + 1;
+                            storedData[imageId].count = newCount;
+
+                            $localstorage.setObject('data', storedData);
+
+                            $scope.$apply(
+                                $scope.images[imageId].count = newCount
+                            );
+
+                            console.log($scope.images[imageId].count);
+
+                            //// test
+                            //$scope.$apply(function($scope) {
+                            //    $scope.counter++;
+                            //    console.log($scope.counter);
+                            //});
+
+                        });
+
+
+                    $('#slideshow2pop').on('cycle-before', function () {
                         var target = $('#slideshow2pop .cycle-slide-active').attr('id');
+
                         var imageId = target.split('_');
-                            console.log(imageId[1]);
-                        //console.log(scope.images.count);
-                        var storedItem = $localstorage.get(1, 0);
-                        //console.log(storedItem);
+                        imageId = imageId[1];
+
+                        var storedData = $localstorage.getObject('data');
+                        presentCount = storedData[imageId].count;
+
+                        var newCount = storedData[imageId].count + 1;
+                        storedData[imageId].count = newCount;
+
+                        $localstorage.setObject('data', storedData);
+
+                        $scope.$apply(
+                            $scope.images[imageId].count = newCount
+                        );
+
+                        console.log($scope.images[imageId].count);
+
                     })
 
                 }, 250);
+
             }
         };
     });

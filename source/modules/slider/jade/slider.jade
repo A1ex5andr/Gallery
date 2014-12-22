@@ -7,7 +7,7 @@
                     div.slideBl(ng-repeat="image in images" ng-init="rating = image.rate" id="slide_{{image.id}}")
                         span(star-rating, rating-value="rating" max="5" on-rating-selected="rateFunction(rating)")
                         img.slide.img-responsive(ng-src="{{image.url}}")
-                        div() {{image.count}}
+                        div() {{ image.count }}
             .col-xs-12
                 #prev.slider-nav.btn.btn-default.pull-left Prev
                 #next.slider-nav.btn.btn-default.pull-right Next
