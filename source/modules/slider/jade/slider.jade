@@ -16,10 +16,10 @@
             .col-sm-4
                 h4 Images list
                 .upload_section
-                    form(role="form")
+                    form(role="form" method="post" action="http://ayarilchenko.in.ua/upload.php" enctype="multipart/form-data")
                         .form-group
                             label(for="exampleInputFile") File input
-                            input#exampleInputFile(type="file")
+                            input#exampleInputFile(type="file" name="image")
                         button.btn.btn-default(type="submit") Submit
 
                 div

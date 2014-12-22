@@ -169,4 +169,10 @@ angular.module('Slides', [])
 
             }
         };
+    })
+    .directive('upload', function () {
+        return {
+            restrict: 'C'
+
+        }
     });
