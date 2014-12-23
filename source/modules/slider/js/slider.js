@@ -57,11 +57,11 @@ angular.module('Slides', [])
             link: function (scope, element, attrs) {
                 var config = angular.extend({
                     slides: '.slideBl',
-                    timeout: 1000
+                    timeout: 2000
                 }, scope.$eval(attrs.slideshow));
                 setTimeout(function () {
                     element.cycle(config);
-                }, 250);
+                }, 450);
             }
         };
     })
@@ -73,7 +73,7 @@ angular.module('Slides', [])
                     slides: '.slideBl',
                     random: true,
                     paused: true,
-                    timeout: 500
+                    timeout: 1500
                 }, scope.$eval(attrs.slideshowpop));
                 setTimeout(function () {
                     element.cycle(config);
@@ -82,7 +82,7 @@ angular.module('Slides', [])
                     //        console.log('slideshowpop');
                     //    }
                     //});
-                }, 250);
+                }, 450);
             }
         };
     })
@@ -124,7 +124,6 @@ angular.module('Slides', [])
         return {
             restrict: "C",
             link: function ($scope, element, attrs) {
-
                 $('#slideshow2').on('cycle-before', function () {
                     var target = $('#slideshow2 .cycle-slide-active').attr('id');
 
@@ -144,8 +143,6 @@ angular.module('Slides', [])
                     );
 
                 });
-
-
                 $('#slideshow2pop').on('cycle-before', function () {
                     var target = $('#slideshow2pop .cycle-slide-active').attr('id');
 
@@ -165,14 +162,6 @@ angular.module('Slides', [])
                     );
 
                 })
-
-
             }
         };
-    })
-    .directive('upload', function () {
-        return {
-            restrict: 'C'
-
-        }
     });
