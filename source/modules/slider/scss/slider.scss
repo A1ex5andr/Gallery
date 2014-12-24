@@ -15,6 +15,13 @@
   opacity: 1;
 }
 
+.urlData {
+  width: 60%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .page {
   &-nav{
 	margin: 10px;
@@ -23,8 +30,8 @@
     margin-bottom: 20px;
   }
   .jumbotron {
-    height: 480px;
-    .container{
+    height: 480px!important;
+    &.container{
       position: relative;
       height: 100%;
     }
@@ -33,6 +40,7 @@
       margin: 0 auto;
     }
   }
+  .spinner{padding-left: 10px;}
   .starRate {
     margin: 0 auto;
     display: block;
@@ -40,6 +48,7 @@
     text-align: center;
   }
   .panel-body {
+    overflow: hidden;
     .glyphicon {
       padding-left: 4px;
       font-size: 11px;
@@ -50,12 +59,27 @@
       display: inline-block;
       overflow: hidden;
     }
+    .td1{
+      width:20%
+    }
+    .td2{
+      width: 58%;
+    }
+    .td3 {
+      width: 20%;
+    }
+    .td3, .td3 span{
+      text-align: right;
+    }
   }
   .arrows {
     margin-top: 10px;
     position: absolute;
-    bottom: -20px;
-    width: 100%;
+    bottom: 20px;
+    width: 90%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
     .arrowsBl {
       width: 33%;
       float: left;
@@ -64,18 +88,30 @@
       }
     }
   }
+  .modal-dialog {
+    max-width: 540px;
+    margin: 0 auto;
+  }
   .modal-content{
     overflow: hidden;
     padding-bottom: 20px;
   }
 }
 
-.urlData {
-  width: 90%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+@media (max-width: 400px) {
+  .page table .td2{
+    width: 38%;
+  }
 }
+@media (min-width: 768px) {
+  .modal-dialog {
+    max-width: 920px !important;
+    width: 100%;
+  }
+}
+
+
+
 
 .uploadBtn {
   margin: 10px 0;

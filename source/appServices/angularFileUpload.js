@@ -1,6 +1,7 @@
 app.controller('CtrlUpload', ['$scope', 'fileUpload', function($scope, fileUpload){
 
     $scope.uploadFile = function() {
+        $scope.dataLoading = true;
         var file = $scope.myFile;
         var uploadUrl = "/upload.php";
         fileUpload.uploadFileToUrl(file, uploadUrl, $scope);
@@ -27,12 +28,15 @@ app.directive('fileModel', ['$parse', function ($parse) {
 app.service('fileUpload', ['$http',
     function ($http) {
         this.uploadFileToUrl = function(file, uploadUrl, $scope){
+
+
+
             var fd = new FormData();
             fd.append('file', file);
 
             if (typeof(file) == 'undefined'){
                 alert('Please Choose an image!');
-
+                $scope.dataLoading = false;
             } else {
                 $http.post(uploadUrl, fd,
                     {
@@ -43,6 +47,7 @@ app.service('fileUpload', ['$http',
                     }
                 )
                 .success(function(response){
+                    $scope.dataLoading = false;
                     var data = JSON.parse(window.localStorage['data']);
                     console.log(response.id);
                     response.id = data.length;
@@ -52,9 +57,12 @@ app.service('fileUpload', ['$http',
                     $scope.images[$scope.images.length] = response;
                 })
                 .error(function(){
+                    $scope.dataLoading = false;
                     console.log('bad request');
                 });
+
             }
+
         }
     }
 ]);
