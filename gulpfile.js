@@ -61,7 +61,6 @@ gulp.task('vendorJs', function () {
         config.vendor + '/js/angular.js',
         config.vendor + '/js/angular-ui-router.min.js',
         config.vendor + '/js/angular-resource.js',
-        config.vendor + '/js/jquery.cycle2.js',
         config.vendor + '/js/bootstrap.js'
         ])
         .pipe(plugins.concat('vendor.js'))

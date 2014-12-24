@@ -1,34 +1,26 @@
-.slider(ng-controller="SliderCtrl")
+.page(ng-controller="SliderCtrl")
     .jumbotron
-        .container
-            .col-xs-12.col-sm-offset-3.col-sm-6
-                //#slideshow2(slideshow, data-cycle-fx="carousel", data-cycle-carousel-visible="3", data-cycle-speed="10", data-cycle-prev="#prev", data-cycle-next="#next", data-cycle-carousel-fluid="true")
-                #slideshow2(slideshow, data-cycle-speed="500", data-cycle-prev="#prev", data-cycle-next="#next")
-                    div.slideBl(ng-repeat="image in images" ng-init="rating = image.rate" id="slide_{{image.id}}")
-                        span(star-rating, rating-value="rating" max="5" on-rating-selected="rateFunction(rating)")
-                        img.slide.img-responsive(ng-src="{{image.url}}")
-                        //div() {{ image.count }}
-            .col-xs-12
-                #prev.slider-nav.btn.btn-default.pull-left Prev
-                #next.slider-nav.btn.btn-default.pull-right Next
+            .container(slider)
+                .slide.col-xs-12.col-sm-offset-3.col-sm-6(ng-repeat="image in images", ng-show="image.visible")
+                    span(star-rating, rating-value="image.rate" max="5" on-rating-selected="rateFunction(rating, $index)")
+                    img.slide.img-responsive(ng-src="{{image.url}}")
+                    div() {{ image.count }}
+
+                .arrows.col-xs-12.col-sm-12
+                    a.arrow.pull-left(href="", ng-click="prev()") PREV
+                    a.arrow.pull-right(href="", ng-click="next()") NEXT
+
     .row
         .container
             .col-sm-4
                 h4 Images list
                 .upload_section(ng-controller = "CtrlUpload")
-                    //form(role="form" method="post" action="http://ayarilchenko.in.ua/upload.php" enctype="multipart/form-data")
-                    //-form.upload(role="form")
-                        .form-group
-                            label(for="exampleInputFile") File input
-                            input#exampleInputFile(type="file" name="image")
-                        button.btn.btn-default(ng-click="form.send()") Submit
                     input(type="file", file-model="myFile")
                     button(ng-click="uploadFile()") upload me
                 div
                     ul.list-group
                         li.list-group-item(ng-repeat="image in images") {{ image.url }}
 
-            // pre Sorting predicate = {{predicate}}; reverse = {{reverse}}
             .col-sm-8
                 .panel.panel-default
                     .panel-heading Slide Detalis
@@ -36,21 +28,21 @@
                         table.table
                             thead
                                 tr
-                                    td Image ID
+                                    td.col-sm-2  Image ID
                                         div.hidden-xs
                                             a(href="" ng-click="predicate = 'id'; revers=false")
                                                 span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
                                             a(href="" ng-click="predicate = '-id'; revers=false")
                                                 span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
 
-                                    td Image URL
+                                    td.col-sm-6 Image URL
                                         div.hidden-xs
                                             a(href="" ng-click="predicate = 'url'; revers=false")
                                                 span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
                                             a(href="" ng-click="predicate = '-url'; revers=false")
                                                 span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
 
-                                    td Impressions Count
+                                    td.col-sm-2  Impressions Count
                                         div.hidden-xs
                                             a(href="" ng-click="predicate = 'count'; revers=false")
                                                 span.glyphicon.glyphicon-chevron-up(aria-hidden="true")
@@ -58,9 +50,9 @@
                                                 span.glyphicon.glyphicon-chevron-down(aria-hidden="true")
 
                             tr(ng-repeat="image in images | orderBy:predicate:reverse")
-                                td {{ image.id }}
-                                td {{ image.url }}
-                                td {{ image.count }}
+                                td.col-sm-2 {{ image.id }}
+                                td.col-sm-6 {{ image.url }}
+                                td.col-sm-2 {{ image.count }}
 
     // Modal
     #SlidePop.modal.fade(tabindex="-1", role="dialog", aria-labelledby="SlidePopLabel", aria-hidden="true")
@@ -72,6 +64,6 @@
                         span.sr-only Close
                     h4#SlidePopLabel.modal-title Modal title
                 .modal-body
-                    #slideshow2pop(slideshowpop, data-cycle-speed="1500", random=true)
-                        div.slideBl(ng-repeat="image in images" id="slidePop_{{image.id}}")
+                    .container(popup)
+                        .slide.col-xs-12.col-sm-offset-3.col-sm-6(ng-repeat="image in images", ng-show="image.visiblePop")
                             img.slide.img-responsive(ng-src="{{image.url}}")

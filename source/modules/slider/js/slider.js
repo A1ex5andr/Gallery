@@ -1,90 +1,127 @@
+function getRandomArbitrary(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
+}
 angular.module('Slides', [])
     .controller('SliderCtrl', ['$scope', '$localstorage', 'resService',
         function ($scope, $localstorage, resService) {
-
         $scope.images = [];
-
         function resourseOk(data) {
-            //console.log('success, got data: ', data);
             if ( typeof (localStorage['data']) === "undefined" ){
                 $localstorage.setObject('data', data );
             }
             $scope.images = $localstorage.getObject('data');
+            $scope.$watch('currentIndexMain',function(){
+                $scope.images.forEach(function(image){
+                    image.visible = false;
+                });
+                $scope.images[$scope.currentIndexMain].visible = true;
+            });
+            //$scope.$watch('currentIndexPop',function(){
+            //    $scope.images.forEach(function(image){
+            //        image.visiblePop = false;
+            //    });
+            //    console.log($scope.currentIndexPop);
+            //    $scope.images[$scope.currentIndexPop].visiblePop = true;
+            //});
         };
-
-        function resourceErr(err){
-            alert('request failed');
-        };
-
+        function resourceErr(err){alert('request failed');};
         var data = resService.query( resourseOk, resourceErr);
-
         $scope.predicate = "id"; // default filtering
-        $scope.rateFunction = function(rating) {
-            console.log("Rating selected - " + rating);
+        $scope.rateFunction = function(rating, index) {
+            var storedData = $localstorage.getObject('data');
+            storedData[index].rate = rating;
+            $localstorage.setObject('data', storedData);
         };
-
     }])
-    .directive('popup', function() {
+    .directive('slider', function ($timeout, $localstorage) {
         return {
-            restrict: 'A',
-            link: function (scope, element, attrs) {
-                $("#popup").click(function(){
-                    $("#slideshow2").cycle("pause");
-                    $("#slideshow2pop").cycle("resume");
-                    // init modal window w/o backdrop
+            restrict: 'AE',
+            //scope:{
+            //    images: '='
+            //},
+            link: function ($scope, elem, attrs) {
+
+                $scope.currentIndexMain = 0;
+
+                $scope.next=function(){
+                    $scope.counter($scope.currentIndexMain);
+                    $scope.currentIndexMain<$scope.images.length-1?$scope.currentIndexMain++:$scope.currentIndexMain=0;
+                };
+                $scope.prev=function(){
+                    $scope.counter($scope.currentIndexMain);
+                    $scope.currentIndexMain>0?$scope.currentIndexMain--:$scope.currentIndexMain=$scope.images.length-1;
+                };
+
+                $scope.counter = function (index) {
+                    var storedData = $localstorage.getObject('data');
+                    storedData[index].count++;
+
+                    $localstorage.setObject('data', storedData);
+                    $scope.images[index].count = storedData[index].count;
+                };
+
+                /* Start: For Automatic slideshow*/
+                var timer;
+                var sliderFunc = function(){
+                    timer=$timeout(function(){
+                        $scope.next();
+                        timer=$timeout(sliderFunc,2000);
+                    },3000);
+                };
+                sliderFunc();
+                $scope.$on('$destroy',function(){
+                    $timeout.cancel(timer);
+                });
+                /* End : For Automatic slideshow*/
+                angular.element(document.querySelectorAll('.arrow')).one('click',function(){
+                    $timeout.cancel(timer);
+                });
+            }
+        }
+    })
+    .directive('popup', function($timeout, $localstorage) {
+        return {
+            restrict: 'AE',
+            link: function ($scope, element, attrs) {
+
+                angular.element("#popup").click(function(){
                     $('#SlidePop').modal({
                         backdrop: 'static'
                     });
-                })
-            }
-        }
-    })
-    .directive('closepopup', function() {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attrs) {
-                $("#closepop, .modal-backdrop").click(function () {
-                    $("#slideshow2").cycle("resume");
-                    $("#slideshow2pop").cycle("pause");
+                    //sliderFunc();
                 });
+                //
+                //$scope.currentIndexPop = 0;
+                //
+                //$scope.next=function(){
+                //    $scope.counter($scope.currentIndexPop);
+                //    $scope.currentIndexPop = getRandomArbitrary(0, 5);
+                //};
+                //
+                //
+                //$scope.counter = function (index) {
+                //    var storedData = $localstorage.getObject('data');
+                //    storedData[index].count++;
+                //
+                //    $localstorage.setObject('data', storedData);
+                //    $scope.images[index].count = storedData[index].count;
+                //};
+                //
+                ///* Start: For Automatic slideshow*/
+                //var timer;
+                //var sliderFunc = function(){
+                //    timer=$timeout(function(){
+                //        $scope.next();
+                //        timer=$timeout(sliderFunc,1000);
+                //    },1000);
+                //};
+                //
+                //$scope.$on('$destroy',function(){
+                //    $timeout.cancel(timer);
+                //});
 
             }
         }
-    })
-    .directive('slideshow', function () {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attrs) {
-                var config = angular.extend({
-                    slides: '.slideBl',
-                    timeout: 2000
-                }, scope.$eval(attrs.slideshow));
-                setTimeout(function () {
-                    element.cycle(config);
-                }, 450);
-            }
-        };
-    })
-    .directive('slideshowpop', function () {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attrs) {
-                var config = angular.extend({
-                    slides: '.slideBl',
-                    random: true,
-                    paused: true,
-                    timeout: 1500
-                }, scope.$eval(attrs.slideshowpop));
-                setTimeout(function () {
-                    element.cycle(config);
-                    //jQuery( window ).ready(function (){
-                    //    if($( ".slideBl:visible")){
-                    //        console.log('slideshowpop');
-                    //    }
-                    //});
-                }, 450);
-            }
-        };
     })
     .directive("starRating", function() {
         return {
@@ -117,51 +154,6 @@ angular.module('Slides', [])
                 scope.$watch("ratingValue", function(oldVal, newVal) {
                     if (newVal) { updateStars(); }
                 });
-            }
-        };
-    })
-    .directive('slider', function ($compile, $localstorage) {
-        return {
-            restrict: "C",
-            link: function ($scope, element, attrs) {
-                $('#slideshow2').on('cycle-before', function () {
-                    var target = $('#slideshow2 .cycle-slide-active').attr('id');
-
-                    var imageId = target.split('_');
-                    imageId = imageId[1];
-
-                    var storedData = $localstorage.getObject('data');
-                    presentCount = storedData[imageId].count;
-
-                    var newCount = storedData[imageId].count + 1;
-                    storedData[imageId].count = newCount;
-
-                    $localstorage.setObject('data', storedData);
-
-                    $scope.$apply(
-                        $scope.images[imageId].count = newCount
-                    );
-
-                });
-                $('#slideshow2pop').on('cycle-before', function () {
-                    var target = $('#slideshow2pop .cycle-slide-active').attr('id');
-
-                    var imageId = target.split('_');
-                    imageId = imageId[1];
-
-                    var storedData = $localstorage.getObject('data');
-                    presentCount = storedData[imageId].count;
-
-                    var newCount = storedData[imageId].count + 1;
-                    storedData[imageId].count = newCount;
-
-                    $localstorage.setObject('data', storedData);
-
-                    $scope.$apply(
-                        $scope.images[imageId].count = newCount
-                    );
-
-                })
             }
         };
     });
