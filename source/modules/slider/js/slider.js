@@ -14,15 +14,16 @@ angular.module('Slides', [])
                 $scope.images.forEach(function(image){
                     image.visible = false;
                 });
+                console.log('main - ' + $scope.currentIndexMain);
                 $scope.images[$scope.currentIndexMain].visible = true;
             });
-            //$scope.$watch('currentIndexPop',function(){
-            //    $scope.images.forEach(function(image){
-            //        image.visiblePop = false;
-            //    });
-            //    console.log($scope.currentIndexPop);
-            //    $scope.images[$scope.currentIndexPop].visiblePop = true;
-            //});
+            $scope.$watch('currentIndexPop',function(){
+                $scope.images.forEach(function(image){
+                    image.visiblePop = false;
+                });
+                console.log('pop - ' + $scope.currentIndexPop);
+                $scope.images[$scope.currentIndexPop].visiblePop = true;
+            });
         };
         function resourceErr(err){alert('request failed');};
         var data = resService.query( resourseOk, resourceErr);
@@ -43,11 +44,11 @@ angular.module('Slides', [])
 
                 $scope.currentIndexMain = 0;
 
-                $scope.next=function(){
+                $scope.nextMain=function(){
                     $scope.counter($scope.currentIndexMain);
                     $scope.currentIndexMain<$scope.images.length-1?$scope.currentIndexMain++:$scope.currentIndexMain=0;
                 };
-                $scope.prev=function(){
+                $scope.prevMain=function(){
                     $scope.counter($scope.currentIndexMain);
                     $scope.currentIndexMain>0?$scope.currentIndexMain--:$scope.currentIndexMain=$scope.images.length-1;
                 };
@@ -59,22 +60,19 @@ angular.module('Slides', [])
                     $localstorage.setObject('data', storedData);
                     $scope.images[index].count = storedData[index].count;
                 };
-
-                /* Start: For Automatic slideshow*/
-                var timer;
-                var sliderFunc = function(){
-                    timer=$timeout(function(){
-                        $scope.next();
-                        timer=$timeout(sliderFunc,2000);
+                var timerMain;
+                var sliderFuncMain = function(){
+                    timerMain=$timeout(function(){
+                        $scope.nextMain();
+                        timerMain=$timeout(sliderFuncMain,2000);
                     },3000);
                 };
-                sliderFunc();
+                sliderFuncMain();
                 $scope.$on('$destroy',function(){
-                    $timeout.cancel(timer);
+                    $timeout.cancel(timerMain);
                 });
-                /* End : For Automatic slideshow*/
                 angular.element(document.querySelectorAll('.arrow')).one('click',function(){
-                    $timeout.cancel(timer);
+                    $timeout.cancel(timerMain);
                 });
             }
         }
@@ -83,43 +81,37 @@ angular.module('Slides', [])
         return {
             restrict: 'AE',
             link: function ($scope, element, attrs) {
+                $scope.currentIndexPop = 1;
+                $scope.next=function(){
+                    $scope.counter($scope.currentIndexPop);
+                    $scope.currentIndexPop = getRandomArbitrary(0, $scope.images.length - 1);
+                };
+                $scope.counter = function (index) {
+                    var storedData = $localstorage.getObject('data');
+                    storedData[index].count++;
 
-                angular.element("#popup").click(function(){
-                    $('#SlidePop').modal({
+                    $localstorage.setObject('data', storedData);
+                    $scope.images[index].count = storedData[index].count;
+                };
+                var timerPop;
+                var sliderFuncPop = function(){
+                    timerPop=$timeout(function(){
+                        $scope.next();
+                        timerPop=$timeout(sliderFuncPop,1500);
+                    },1500);
+                };
+                $scope.$on('$destroy',function(){
+                    $timeout.cancel(timerPop);
+                });
+               $scope.openPop = function(){
+                    angular.element('#SlidePop').modal({
                         backdrop: 'static'
                     });
-                    //sliderFunc();
-                });
-                //
-                //$scope.currentIndexPop = 0;
-                //
-                //$scope.next=function(){
-                //    $scope.counter($scope.currentIndexPop);
-                //    $scope.currentIndexPop = getRandomArbitrary(0, 5);
-                //};
-                //
-                //
-                //$scope.counter = function (index) {
-                //    var storedData = $localstorage.getObject('data');
-                //    storedData[index].count++;
-                //
-                //    $localstorage.setObject('data', storedData);
-                //    $scope.images[index].count = storedData[index].count;
-                //};
-                //
-                ///* Start: For Automatic slideshow*/
-                //var timer;
-                //var sliderFunc = function(){
-                //    timer=$timeout(function(){
-                //        $scope.next();
-                //        timer=$timeout(sliderFunc,1000);
-                //    },1000);
-                //};
-                //
-                //$scope.$on('$destroy',function(){
-                //    $timeout.cancel(timer);
-                //});
-
+                    sliderFuncPop();
+                };
+                $scope.closePop = function(){
+                    $timeout.cancel(timerPop);
+                };
             }
         }
     })

@@ -4,11 +4,14 @@
                 .slide.col-xs-12.col-sm-offset-3.col-sm-6(ng-repeat="image in images", ng-show="image.visible")
                     span(star-rating, rating-value="image.rate" max="5" on-rating-selected="rateFunction(rating, $index)")
                     img.slide.img-responsive(ng-src="{{image.url}}")
-                    div() {{ image.count }}
+
 
                 .arrows.col-xs-12.col-sm-12
-                    a.arrow.pull-left(href="", ng-click="prev()") PREV
-                    a.arrow.pull-right(href="", ng-click="next()") NEXT
+                    .col-xs-4
+                        a.arrow.pull-left(href="", ng-click="prevMain()") PREV
+                    .col-xs-4.btn.btn-danger(ng-click="openPop()") PopUp
+                    .col-xs-4
+                        a.arrow.pull-right(href="", ng-click="nextMain()") NEXT
 
     .row
         .container
@@ -59,11 +62,11 @@
         .modal-dialog
             .modal-content
                 .modal-header
-                    button.close#closepop(closepopup, type="button", data-dismiss="modal")
+                    button.close(ng-click="closePop()", type="button", data-dismiss="modal")
                         span(aria-hidden="true") &#215;
                         span.sr-only Close
                     h4#SlidePopLabel.modal-title Modal title
                 .modal-body
-                    .container(popup)
+                    div(popup)
                         .slide.col-xs-12.col-sm-offset-3.col-sm-6(ng-repeat="image in images", ng-show="image.visiblePop")
                             img.slide.img-responsive(ng-src="{{image.url}}")
