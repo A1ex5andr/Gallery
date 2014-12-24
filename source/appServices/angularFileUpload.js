@@ -30,25 +30,31 @@ app.service('fileUpload', ['$http',
             var fd = new FormData();
             fd.append('file', file);
 
+            if (typeof(file) == 'undefined'){
+                alert('Please Choose an image!');
 
-            $http.post(uploadUrl, fd,
-                {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
+            } else {
+                $http.post(uploadUrl, fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
                     }
-                }
-            )
-            .success(function(response){
-                var data = JSON.parse(window.localStorage['data']);
-                response.id = data.length;
-                data[data.length] = response;
-                window.localStorage['data'] = JSON.stringify(data);
-                $scope.images[$scope.images.length] = response;
-            })
-            .error(function(){
-                console.log('bad request');
-            });
+                )
+                .success(function(response){
+                    var data = JSON.parse(window.localStorage['data']);
+                    console.log(response.id);
+                    response.id = data.length;
+
+                    data[data.length] = response;
+                    window.localStorage['data'] = JSON.stringify(data);
+                    $scope.images[$scope.images.length] = response;
+                })
+                .error(function(){
+                    console.log('bad request');
+                });
+            }
         }
     }
 ]);

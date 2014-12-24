@@ -1,17 +1,15 @@
 .page(ng-controller="SliderCtrl")
     .jumbotron
             .container(slider)
-                .row
-                    .slide.col-xs-12.col-sm-offset-3.col-sm-6(ng-repeat="image in images", ng-show="image.visible")
-                        span.starRate(star-rating, rating-value="image.rate" max="5" on-rating-selected="rateFunction(rating, $index)")
-                        img.slide.img-responsive(ng-src="{{image.url}}")
-
-
-                .arrows.col-xs-12.col-sm-12
-                    .col-xs-4
+                .slide.col-xs-12.col-sm-offset-3.col-sm-6(ng-repeat="image in images", ng-show="image.visible")
+                    span.starRate(star-rating, rating-value="image.rate" max="5" on-rating-selected="rateFunction(rating, $index)")
+                    img.slide.img-responsive(ng-src="{{image.url}}")
+                .arrows.container
+                    .arrowsBl
                         a.arrow.pull-left(href="", ng-click="prevMain()") PREV
-                    .col-xs-4.btn.btn-danger(ng-click="openPop()") PopUp
-                    .col-xs-4
+                    .arrowsBl
+                        .btn.btn-danger.center-block(ng-click="openPop()") PopUp
+                    .arrowsBl
                         a.arrow.pull-right(href="", ng-click="nextMain()") NEXT
 
     .row
@@ -20,7 +18,7 @@
                 h4 Images list
                 .upload_section(ng-controller = "CtrlUpload")
                     input(type="file", file-model="myFile" )
-                    button.btn.btn-defalut(ng-click="uploadFile()") UPLOAD
+                    button.btn.btn-defalut.uploadBtn(ng-click="uploadFile()") UPLOAD
 
                 div
                     ul.list-group
