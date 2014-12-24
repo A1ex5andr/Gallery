@@ -1,3 +1,13 @@
+app.controller('CtrlUpload', ['$scope', 'fileUpload', function($scope, fileUpload){
+
+    $scope.uploadFile = function() {
+        var file = $scope.myFile;
+        var uploadUrl = "/upload.php";
+        fileUpload.uploadFileToUrl(file, uploadUrl, $scope);
+    };
+
+}]);
+
 app.directive('fileModel', ['$parse', function ($parse) {
     return {
         restrict: 'A',
@@ -19,39 +29,26 @@ app.service('fileUpload', ['$http',
         this.uploadFileToUrl = function(file, uploadUrl, $scope){
             var fd = new FormData();
             fd.append('file', file);
-            $http.post(uploadUrl, fd, {
-                transformRequest: angular.identity,
-                headers: {
-                    'Content-Type': undefined
+
+
+            $http.post(uploadUrl, fd,
+                {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
                 }
+            )
+            .success(function(response){
+                var data = JSON.parse(window.localStorage['data']);
+                response.id = data.length;
+                data[data.length] = response;
+                window.localStorage['data'] = JSON.stringify(data);
+                $scope.images[$scope.images.length] = response;
             })
-                .success(function(response){
-                    console.log(response);
-                    var data = JSON.parse(window.localStorage['data']);
-                         //console.log(data);
-                    response.id = data.length;
-                    data[data.length] = response;
-                         //console.log(data);
-                    window.localStorage['data'] = JSON.stringify(data);
-                    //$scope.$apply(
-                        $scope.images[$scope.images.length] = response;
-
-                    //);
-                    console.log(JSON.stringify($scope.images));
-                })
-                .error(function(){
-                    console.log('bad');
-                });
+            .error(function(){
+                console.log('bad request');
+            });
         }
-}]);
-
-app.controller('CtrlUpload', ['$scope', 'fileUpload', function($scope, fileUpload){
-
-    $scope.uploadFile = function(){
-        var file = $scope.myFile;
-        console.log('file is ' + JSON.stringify(file));
-        var uploadUrl = "http://ayarilchenko.in.ua/upload.php";
-        fileUpload.uploadFileToUrl(file, uploadUrl, $scope);
-    };
-
-}]);
+    }
+]);

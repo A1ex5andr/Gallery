@@ -29,6 +29,23 @@
   &-add {
     margin-bottom: 20px;
   }
+  .jumbotron {
+    height: 480px;
+    .container{
+      position: relative;
+      height: 100%;
+    }
+    img {
+      max-height: 360px;
+      margin: 0 auto;
+    }
+  }
+  .starRate {
+    margin: 0 auto;
+    display: block;
+    margin-left: -25%;
+    text-align: center;
+  }
   .panel-body {
     .glyphicon {
       padding-left: 4px;
@@ -43,11 +60,20 @@
   }
   .arrows {
     margin-top: 10px;
+    position: absolute;
+    bottom: -20px;
   }
   .modal-content{
     overflow: hidden;
     padding-bottom: 20px;
   }
+}
+
+.urlData {
+  width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 

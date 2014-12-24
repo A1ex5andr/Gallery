@@ -2,47 +2,51 @@ function getRandomArbitrary(min, max) {
     return Math.round(Math.random() * (max - min) + min);
 }
 angular.module('Slides', [])
-    .controller('SliderCtrl', ['$scope', '$localstorage', 'resService',
-        function ($scope, $localstorage, resService) {
-        $scope.images = [];
-        function resourseOk(data) {
-            if ( typeof (localStorage['data']) === "undefined" ){
-                $localstorage.setObject('data', data );
-            }
-            $scope.images = $localstorage.getObject('data');
-            $scope.$watch('currentIndexMain',function(){
-                $scope.images.forEach(function(image){
-                    image.visible = false;
+    .controller('SliderCtrl', ['$scope', '$localstorage', 'initialData',
+        function ($scope, $localstorage, initialData) {
+
+            function resourseOk(data) {
+                if ( typeof ($localstorage.get('data')) === "undefined" ){
+                    $localstorage.setObject('data', data );
+                }
+                $scope.images = $localstorage.getObject('data');
+
+                $scope.$watch('currentIndexMain',function(){
+                    $scope.images.forEach(function(image){
+                        image.visible = false;
+                    });
+                    $scope.images[$scope.currentIndexMain].visible = true;
                 });
-                console.log('main - ' + $scope.currentIndexMain);
-                $scope.images[$scope.currentIndexMain].visible = true;
-            });
-            $scope.$watch('currentIndexPop',function(){
-                $scope.images.forEach(function(image){
-                    image.visiblePop = false;
+
+                $scope.$watch('currentIndexPop',function(){
+                    $scope.images.forEach(function(image){
+                        image.visiblePop = false;
+                    });
+                    $scope.images[$scope.currentIndexPop].visiblePop = true;
                 });
-                console.log('pop - ' + $scope.currentIndexPop);
-                $scope.images[$scope.currentIndexPop].visiblePop = true;
-            });
-        };
-        function resourceErr(err){alert('request failed');};
-        var data = resService.query( resourseOk, resourceErr);
-        $scope.predicate = "id"; // default filtering
-        $scope.rateFunction = function(rating, index) {
-            var storedData = $localstorage.getObject('data');
-            storedData[index].rate = rating;
-            $localstorage.setObject('data', storedData);
-        };
-    }])
+
+            };
+
+            function resourceErr(err){alert('request failed');};
+
+            $scope.rateFunction = function(rating, index) {
+                var storedData = $localstorage.getObject('data');
+                storedData[index].rate = rating;
+                $localstorage.setObject('data', storedData);
+            };
+
+            $scope.images = [];
+            var data = initialData.query( resourseOk, resourceErr);
+            $scope.predicate = "id"; // default filtering
+        }
+    ])
     .directive('slider', function ($timeout, $localstorage) {
         return {
             restrict: 'AE',
-            //scope:{
-            //    images: '='
-            //},
             link: function ($scope, elem, attrs) {
 
                 $scope.currentIndexMain = 0;
+                var timerMain;
 
                 $scope.nextMain=function(){
                     $scope.counter($scope.currentIndexMain);
@@ -60,7 +64,7 @@ angular.module('Slides', [])
                     $localstorage.setObject('data', storedData);
                     $scope.images[index].count = storedData[index].count;
                 };
-                var timerMain;
+
                 var sliderFuncMain = function(){
                     timerMain=$timeout(function(){
                         $scope.nextMain();
@@ -68,6 +72,7 @@ angular.module('Slides', [])
                     },3000);
                 };
                 sliderFuncMain();
+
                 $scope.$on('$destroy',function(){
                     $timeout.cancel(timerMain);
                 });
@@ -81,7 +86,10 @@ angular.module('Slides', [])
         return {
             restrict: 'AE',
             link: function ($scope, element, attrs) {
+
                 $scope.currentIndexPop = 1;
+                var timerPop;
+
                 $scope.next=function(){
                     $scope.counter($scope.currentIndexPop);
                     $scope.currentIndexPop = getRandomArbitrary(0, $scope.images.length - 1);
@@ -93,7 +101,7 @@ angular.module('Slides', [])
                     $localstorage.setObject('data', storedData);
                     $scope.images[index].count = storedData[index].count;
                 };
-                var timerPop;
+
                 var sliderFuncPop = function(){
                     timerPop=$timeout(function(){
                         $scope.next();
@@ -103,13 +111,14 @@ angular.module('Slides', [])
                 $scope.$on('$destroy',function(){
                     $timeout.cancel(timerPop);
                 });
+
                $scope.openPop = function(){
                     angular.element('#SlidePop').modal({
                         backdrop: 'static'
                     });
                     sliderFuncPop();
                 };
-                $scope.closePop = function(){
+               $scope.closePop = function(){
                     $timeout.cancel(timerPop);
                 };
             }
